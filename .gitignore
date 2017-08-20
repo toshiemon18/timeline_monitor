@@ -1,3 +1,4 @@
 .envrc
 .rspec
 db/*.db
+logs/*.log
