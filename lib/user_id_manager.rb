@@ -5,7 +5,7 @@ require "pg"
 require "logger"
 
 module TimelineMonitor
-  class UserIdManeger
+  class UserIdManager
     def initialize
       user = ENV["PSQL_USER"]
       host = ENV["PSQL_HOST"]
