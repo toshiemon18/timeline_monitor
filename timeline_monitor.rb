@@ -47,6 +47,13 @@ end
 
 client.on :message do |data|
   #TODO : Implementation!!!!!
+  message = data.text.split(" ")
+  if message.size < 2
+
+  else
+    command = message[0]
+    argument = message[1]
+  end
 end
 
 client.start_async
