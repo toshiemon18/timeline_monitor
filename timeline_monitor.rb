@@ -4,7 +4,6 @@ require "slack-ruby-client"
 require "logger"
 require "./lib/db_define"
 require "./lib/twitter"
-require "./lib/user_id_manager"
 
 inlcude TimelineMonitor
 
@@ -15,7 +14,7 @@ Slack.configure do |config|
   config.token = ENV["SLACK_TOKEN"]
   config.logger = Logger.new("./logs/app.log")
   config.logger.level = Logger::INFO
-  fail "Missing environment variable : SLACK_TOKEN" unless config.token
+  raise "Missing environment variable : SLACK_TOKEN" unless config.token
 end
 
 client = Slack::RealTime::Client.new
