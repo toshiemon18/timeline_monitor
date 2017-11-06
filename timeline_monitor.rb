@@ -27,9 +27,10 @@ streaming_proc = Proc.new do
   twitter_client.monitor_user(uid_list) do |tweethash|
     text = "#{screen_name}\n#{text}\n#{url}"
     begin
-      result = client.web_client.chat_postMessage(channel: CHANNEL_NAME,
-                                                  as_user: false,
-                                                  text: text)
+      # result = client.web_client.chat_postMessage(channel: CHANNEL_NAME,
+      #                                             as_user: false,
+      #                                             text: text)
+      result = client.message(channel: CHANNEL_NAME, text: text)
     rescue => e
       puts "[#{Time.now}] [Sending message error] #{e.message}"
     end
@@ -48,7 +49,6 @@ client.on :message do |data|
   #TODO : Implementation!!!!!
   message = data.text.split(" ")
   if message.size < 2
-
   else
     command = message[0]
     argument = message[1]
