@@ -24,12 +24,9 @@ streaming_proc = Proc.new do
   uid_list = uid_manager.fetch_uids
   twitter_client = TwitteStreamer.new
 
-  twitter_client.monitor_user(uid_list) do |tweethash|
-    text = "#{screen_name}\n#{text}\n#{url}"
+  twitter_client.monitor_user(uid_list) do |twh|
+    text = "#{twh[:screen_name]}\n#{twh[:text]}\n#{twh[:url]}"
     begin
-      # result = client.web_client.chat_postMessage(channel: CHANNEL_NAME,
-      #                                             as_user: false,
-      #                                             text: text)
       result = client.message(channel: CHANNEL_NAME, text: text)
     rescue => e
       puts "[#{Time.now}] [Sending message error] #{e.message}"
