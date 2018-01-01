@@ -20,8 +20,7 @@ end
 client = Slack::RealTime::Client.new
 
 streaming_proc = Proc.new do
-  uid_manager = UserIdManager.new
-  uid_list = uid_manager.fetch_uids
+  uid_list = UserIdManager.new.fetch_uids
   twitter_client = TwitteStreamer.new
 
   twitter_client.monitor_user(uid_list) do |twh|
@@ -33,7 +32,6 @@ streaming_proc = Proc.new do
     end
   end
 end
-
 # ツイートを受信/slackへ送信するスレッド
 streaming_thread = Thread.new { streaming_proc.call }
 
