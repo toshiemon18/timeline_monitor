@@ -4,13 +4,14 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-# gem "rails"
+# API
 gem "twitter"
 gem "slack-ruby-client"
-gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']
 
+# DB
 gem "sequel"
 gem "pg"
 
+# Dev
 gem "rspec"
 gem "pry"
