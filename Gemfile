@@ -7,6 +7,7 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 # API
 gem "twitter"
 gem "slack-ruby-client"
+gem "faye-websocket"
 
 # DB
 gem "sequel"
