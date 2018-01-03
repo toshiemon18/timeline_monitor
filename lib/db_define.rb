@@ -5,7 +5,7 @@ require "pg"
 
 module TimelineMonitor
   module DBDefine
-    def define_table(db_url)
+    def self.define_table(db_url)
       db = Sequel.connect(db_url, logger: Logger.new("./logs/db.log"))
       db.create_table? :twitter_users do
         primary_key :id
