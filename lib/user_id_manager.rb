@@ -3,10 +3,11 @@
 require "sequel"
 require "pg"
 require "logger"
-require "./db_define.rb"
+require "./lib/db_define.rb"
 
 module TimelineMonitor
   class UserIdManager
+    attr_reader :db_url
     TABLE_NAME = :twitter_users
 
     def initialize
@@ -25,7 +26,7 @@ module TimelineMonitor
       table = fetch_table
       uids = []
       table.select(:uid).each {|row| uids.push row[:uid] }
-      uids.join(",")
+      uid_list = uids.join(",")
     end
 
     # add_uid
