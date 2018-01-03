@@ -15,7 +15,7 @@ CHANNEL_NAME = "#timeline_monitor"
 Slack.configure do |config|
   config.token = ENV["SLACK_TOKEN"]
   config.logger = Logger.new("./logs/app.log")
-  config.logger.level = Logger::INFO
+  config.logger.level = Logger::WARN
   raise "Missing environment variable : SLACK_TOKEN" unless config.token
 end
 
@@ -25,9 +25,14 @@ streaming_proc = Proc.new do
   uid_list = "580785994"#  << UserIdManager.new.fetch_uids
   twitter_client = TwitterStreamer.new
   twitter_client.monitor_user(uid_list) do |twh|
+    puts "[#{Time.now}] Tweet received by #{twh[:screen_name]}"
     text = "#{twh[:screen_name]}\n#{twh[:text]}\n#{twh[:url]}"
     begin
-      result = client.message(channel: CHANNEL_NAME, text: text)
+      client.typing channel: CHANNEL_NAME
+      result = client.web_client.chat_postMessage(channel: CHANNEL_NAME,
+                                                  text: text,
+                                                  as_user: true)
+      puts "[#{Time.now}] Send message to Slack#{CHANNEL_NAME}"
     rescue => e
       puts "[#{Time.now}] [Sending message error] #{e.message}"
     end
@@ -42,7 +47,6 @@ client.on :hello do
 end
 
 client.on :message do |data|
-
 end
 
 client.start_async
