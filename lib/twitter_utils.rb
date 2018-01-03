@@ -14,7 +14,6 @@ module TimelineMonitor
         access_token: ENV["TWITTER_TOKEN"],
         access_token_secret: ENV["TWITTER_TOKEN_SECRET"]
       }
-      raise "Missing Twitter environment variable" if config.value.map(&:nil?).reduce(:|)
       generate_client(config)
     end
 
