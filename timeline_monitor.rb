@@ -1,11 +1,13 @@
 # coding ; utf-8
 
+$:.unshift(File.join(File.dirname(__FILE__)))
+
 require "slack-ruby-client"
 require "logger"
 require "./lib/db_define"
 require "./lib/twitter"
 
-inlcude TimelineMonitor
+include TimelineMonitor
 
 CHANNEL_ID = "#{ENV["CHANNEL_ID"]}".freeze
 CHANNEL_NAME = "#timeline_monitor"
@@ -20,9 +22,8 @@ end
 client = Slack::RealTime::Client.new
 
 streaming_proc = Proc.new do
-  uid_list = UserIdManager.new.fetch_uids
-  twitter_client = TwitteStreamer.new
-
+  uid_list = "580785994"#  << UserIdManager.new.fetch_uids
+  twitter_client = TwitterStreamer.new
   twitter_client.monitor_user(uid_list) do |twh|
     text = "#{twh[:screen_name]}\n#{twh[:text]}\n#{twh[:url]}"
     begin
@@ -41,13 +42,7 @@ client.on :hello do
 end
 
 client.on :message do |data|
-  #TODO : Implementation!!!!!
-  message = data.text.split(" ")
-  if message.size < 2
-  else
-    command = message[0]
-    argument = message[1]
-  end
+
 end
 
 client.start_async
