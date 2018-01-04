@@ -37,6 +37,13 @@ module TimelineMonitor
       table.insert(screen_name: screen_name.to_s, uid: uid.to_s)
     end
 
+    def exist_user?(screen_name)
+      table = fetch_table
+      screen_names = []
+      table.select(:screen_name).each {|e| screen_names.push e[:screen_name]}
+      screen_names.include? screen_name
+    end
+
     private
     def fetch_db
       db = Sequel.connect(@db_url, logger: Logger.new("./logs/db.log"))
