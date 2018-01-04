@@ -53,7 +53,6 @@ slack_client.on :clos do
 end
 
 slack_client.on :message do |data|
-  puts data.text
   case data.text
   # Botのヘルプ表示
   # いるか..？
