@@ -24,7 +24,7 @@ twitter_utils = TwitterUltils.new
 twitter_client = twitter_utils.client
 
 streaming_proc = Proc.new do
-  uid_list = "580785994" << UserIdManager.new.fetch_uids
+  uid_list = UserIdManager.new.fetch_uids
   puts "[#{Time.now}][Success] Successfully connect to Twitter streaming API."
   twitter_utils.monitor_user(uid_list) do |twh|
     puts "[#{Time.now}] Tweet received by #{twh[:screen_name]}"
