@@ -63,18 +63,16 @@ slack_client.on :message do |data|
   # ヘルプ以外であればTwitterのSNとして扱う
   else
     begin
-      # ツイートがSpace区切りであればreject, 再送を要求
-      if data.text.split(" ").size > 1
-        slack_client.message(channel: data.channel,
-                       text: "Screen nameのみを送ってください")
-      # それ以外であればTwitterのユーザを検索
-      else
-        # ユーザIDの登録とstreamingスレッドの再起動
+      # ユーザIDの登録とstreamingスレッドの再起動
+      unless UserIdManager.new.exist_user? data.text
         uid = twitter_client.user(data.text).id
         UserIdManager.new.add_user(data.text, uid)
         puts "[#{Time.now}][Success] Register new account"
         streaming_thread.kill
         streaming_thread = Thread.new { streaming_proc.call }
+      else
+        slack_client.message(channel: data.channel,
+                             text: "#{data.text}はすでに登録されていました.")
       end
     rescue => e
       # ユーザが存在しない場合の処理
